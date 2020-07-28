@@ -33,7 +33,8 @@ output reg szo,
 output reg [4:0] lambdao,
 output reg flago,
 output reg [10:0] mro,
-output reg [4:0] rexpo
+output reg [4:0] rexpo,
+output reg [4:0] ra
     );
     reg [10:0] num1;
     reg [10:0] num2;
@@ -47,6 +48,7 @@ output reg [4:0] rexpo
     reg [4:0] lambda;
     reg flag;
     reg f1,f2;
+    reg [4:0] rb,rc,rd;
     always@(posedge clk)
     begin
         num1 = 0;
@@ -88,12 +90,12 @@ output reg [4:0] rexpo
         begin
             if(num2 < num1)
             begin
-                tempreg = num1[10:0] - num2[10:0];
+                tempreg[11:0] = num1[10:0] - num2[10:0];
                 num3[9:0] = tempreg[9:0];
                 num3[15] = sign1;
             end
             else begin
-                tempreg = num1[10:0] - num2[10:0];
+                tempreg[11:0] = num1[10:0] - num2[10:0];
                 num3[9:0] = tempreg[9:0];
                 num3[9:0] = -num3[9:0];
                 num3[15] = sign2;
@@ -103,12 +105,12 @@ output reg [4:0] rexpo
         else begin
             if(sign1 == 0 && sign2 == 0) 
             begin
-                tempreg = num1[10:0] + num2[10:0];
+                tempreg[11:0] = num1[10:0] + num2[10:0];
                 num3[9:0] = tempreg[9:0];
                 num3[15] = 0;
             end
             else begin
-                tempreg = num1[10:0] + num2[10:0];
+                tempreg[11:0] = num1[10:0] + num2[10:0];
                 num3[9:0] = tempreg[9:0];
                 num3[15] = 1;
             end
@@ -116,12 +118,14 @@ output reg [4:0] rexpo
         end
         num3[14:10] = exp1;
         rexpo = num3[14:10];
+        //ra = tempreg[11];
         if(tempreg[11])
         begin
             num3[9:0] = num3[9:0] >> 1;
-            num3[14:10] = num3[14:10] + 1;
+            num3[14:10] = num3[14:10] + 5'b00001 + 5'b01111;
+            ra = 5'bZZZZZ;
         end
-        if(tempreg[10] == 0)
+        else if(tempreg[10] == 0)
         begin
             flag = 0;
             lambda = 1;
@@ -176,6 +180,7 @@ output reg [4:0] rexpo
                 num3[14:10] = rexpo - 5'b01111;
             end
          end
+         else rb = 1;
      //num3[14:10] = num3[14:10];
      ans = num3; 
      sign1o = sign1;
