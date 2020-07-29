@@ -10,4 +10,9 @@ FP16_Arithmetic modules designed by Verilog and VHDL
                     sz = sign1 xor sign2 
                     lambda = number of leading zeroes in case of significand cancellation, used for normalization.
                     flag = used in calculation of lambda
+
+
+
+
+
 29/07/2020 added support for exceptions
