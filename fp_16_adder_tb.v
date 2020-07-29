@@ -36,6 +36,8 @@ wire flago;
 wire [10:0] mro;
 wire [4:0] rexpo;
 wire [4:0] ra;
+wire [1:0] iszero,isinf;
+wire isnan;
 fp16_adder F0(
     .numi1(num1i),
     .numi2(num2i),
@@ -51,16 +53,19 @@ fp16_adder F0(
     .flago(flago),
     .mro(mro),
     .rexpo(rexpo),
-    .ra(ra)
+    .ra(ra),
+    .iszero(iszero),
+    .isinf(isinf),
+    .isnan(isnan)
     );
     initial begin
         clk = 0;
-        num1i = 16'b0_01110_0000000000;
-        num2i = 16'b0_01110_0000000000;
+        num1i = 16'b0_01110_0000010000;
+        num2i = 16'b1_01110_0000010000;
     end
     always begin
     #50 clk = !clk;
-    $display("\t\ttime,\tclk,\tnum1,\tnum2,\tans,\tsign1,\tsign2,\texp1,\texp2,\texpdiff,\tsz,\tlambda,\tflag,\tmro,\trexpo,\tra");
-    $monitor("%d,\t%d,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b",$time,clk,num1i,num2i,ans,sign1o,sign2o,exp1o,exp2o,expdiffo,szo,lambdao,flago,mro,rexpo,ra);
+    $display("\t\ttime,\tclk,\tnum1,\tnum2,\tans,\tsign1,\tsign2,\texp1,\texp2,\texpdiff,\tsz,\tlambda,\tflag,\tmro,\trexpo,\tra,\tiszero,\tisinf,\tisnan");
+    $monitor("%d,\t%d,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b,\t%b",$time,clk,num1i,num2i,ans,sign1o,sign2o,exp1o,exp2o,expdiffo,szo,lambdao,flago,mro,rexpo,ra,iszero,isinf,isnan);
     end
 endmodule
