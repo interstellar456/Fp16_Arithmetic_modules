@@ -16,3 +16,5 @@ FP16_Arithmetic modules designed by Verilog and VHDL
 
 
 29/07/2020 added support for exceptions
+
+30/07/2020 Multiplier #1 try
